@@ -1,4 +1,16 @@
 {
   "start_date": "2026-03-02",
-  "daily": []
+  "daily": [
+    {
+      "date": "2026-03-02",
+      "done": 1,
+      "planned": 2,
+      "phase": "Phase 1: 基础",
+      "problems": [
+        "Zero"
+      ],
+      "note": "Zero"
+    },
+    {"date": "2026-03-02", "done": 1, "planned": 2, "phase": "Phase 1: 基础", "problems": ["Step_one"], "note": "Step one"}
+  ]
 }
