@@ -33,6 +33,7 @@ def init():
     print("✅ 初始化完成")
 
 def add(count, problems=None, note=None):
+    """记录今日进度（自动合并同一天记录）"""
     data = json.loads(DATA_FILE.read_text(encoding='utf-8'))
     plan = json.loads(PLAN_FILE.read_text(encoding='utf-8'))
     today = datetime.now().strftime("%Y-%m-%d")
@@ -48,31 +49,54 @@ def add(count, problems=None, note=None):
             current_phase = p["name"]
             break
     
-    entry = {
-        "date": today,
-        "done": count,
-        "planned": plan["daily_goal"],
-        "phase": current_phase,
-        "problems": problems or [],
-        "note": note or ""
-    }
+    # 检查是否已有今日记录
+    existing_idx = None
+    for i, d in enumerate(data["daily"]):
+        if d["date"] == today:
+            existing_idx = i
+            break
     
-    # 检查是否已存在
-    existing = [i for i, d in enumerate(data["daily"]) if d["date"] == today]
-    if existing:
-        data["daily"][existing[0]] = entry
+    if existing_idx is not None:
+        # 合并到已有记录
+        old = data["daily"][existing_idx]
+        old["done"] += count
+        old["planned"] = plan["daily_goal"]
+        if problems:
+            old["problems"].extend(problems)
+        if note:
+            if old["note"]:
+                old["note"] += "; " + note
+            else:
+                old["note"] = note
+        
+        # 更新阶段（以防跨阶段）
+        old["phase"] = current_phase
+        
+        status = "✅" if old["done"] >= old["planned"] else "⚠️"
+        print(f"{status} 追加成功: {today} - 累计完成 {old['done']}/{old['planned']} 题 ({current_phase})")
+        if problems:
+            print(f"   题目: {', '.join(problems)}")
     else:
+        # 创建新记录
+        entry = {
+            "date": today,
+            "done": count,
+            "planned": plan["daily_goal"],
+            "phase": current_phase,
+            "problems": problems or [],
+            "note": note or ""
+        }
         data["daily"].append(entry)
+        
+        status = "✅" if count >= plan["daily_goal"] else "⚠️"
+        print(f"{status} 记录成功: {today} - {count}题 ({current_phase})")
     
     DATA_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding='utf-8')
-    
-    status = "✅" if count >= plan["daily_goal"] else "⚠️"
-    print(f"{status} 记录成功: {today} - {count}题 ({current_phase})")
     
     # 自动导出Notion（如果配置了）
     if os.path.exists("notion_config.json"):
         try:
-            sync_notion(entry)
+            sync_notion(data["daily"][-1])
         except Exception as e:
             print(f"Notion同步失败（可忽略）: {e}")
 
