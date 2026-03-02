@@ -5,8 +5,9 @@
     <title>HDLBits Progress</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
-               background: #0d1117; color: #c9d1d9; padding: 40px 20px; margin: 0; }
+               background: #0d1117; color: #c9d1d9; padding: 40px 20px; margin: 0; line-height: 1.5; }
         #login { text-align: center; margin-top: 100px; }
         input { padding: 10px; font-size: 16px; border: 1px solid #30363d; 
                 background: #21262d; color: white; border-radius: 6px; margin: 10px; }
@@ -14,13 +15,27 @@
                  border-radius: 6px; cursor: pointer; font-weight: 600; }
         button:hover { background: #2ea043; }
         .hidden { display: none; }
-        .container { max-width: 900px; margin: 0 auto; }
-        h1 { color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 24px 0; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 24px; }
+        h2 { color: #f0f6fc; font-size: 18px; margin: 24px 0 12px 0; }
+        h3 { color: #8b949e; font-size: 14px; margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
         .stat-card { background: #161b22; border: 1px solid #30363d; padding: 16px; border-radius: 8px; text-align: center; }
-        .stat-value { font-size: 24px; font-weight: 700; color: #58a6ff; }
-        .stat-label { font-size: 12px; color: #8b949e; margin-top: 4px; }
-        .heatmap { display: flex; gap: 3px; margin-top: 20px; overflow-x: auto; padding-bottom: 10px; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #58a6ff; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: #8b949e; }
+        
+        .plan-overview { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+        .plan-stats { display: flex; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; }
+        .plan-stat { flex: 1; min-width: 120px; }
+        .plan-stat-value { font-size: 24px; font-weight: 600; color: #f0f6fc; }
+        .plan-stat-label { font-size: 12px; color: #8b949e; margin-top: 4px; }
+        
+        .overall-progress { height: 12px; background: #21262d; border-radius: 6px; overflow: hidden; margin: 12px 0; }
+        .overall-bar { height: 100%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 6px; 
+                       width: 5.454545454545454%; transition: width 0.5s ease; }
+        
+        .heatmap { display: flex; gap: 3px; margin-top: 16px; overflow-x: auto; padding-bottom: 10px; }
         .week { display: flex; flex-direction: column; gap: 3px; }
         .day { width: 10px; height: 10px; border-radius: 2px; background: #161b22; border: 1px solid #21262d; }
         .day.l1 { background: #0e4429; }
@@ -28,12 +43,18 @@
         .day.l3 { background: #26a641; }
         .day.l4 { background: #39d353; }
         .day.missed { background: #f85149; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #30363d; }
-        th { color: #8b949e; font-weight: 500; }
-        .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; 
-                  background: #238636; color: white; }
-        .badge-warning { background: #f85149; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #30363d; }
+        th { color: #8b949e; font-weight: 500; font-size: 12px; text-transform: uppercase; }
+        
+        .legend { display: flex; gap: 8px; align-items: center; margin-top: 16px; font-size: 12px; color: #8b949e; justify-content: flex-end; }
+        .legend-box { width: 10px; height: 10px; border-radius: 2px; }
+        
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .plan-stats { flex-direction: column; gap: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -49,7 +70,9 @@
     <div id="content" class="hidden">
         <div class="container">
             <h1>HDLBits 刷题进度</h1>
-            <div class="stats">
+            
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value">9</div>
                     <div class="stat-label">总题数</div>
@@ -63,24 +86,158 @@
                     <div class="stat-label">日均</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">Phase 1: 基础</div>
+                    <div class="stat-value" style="font-size: 18px; padding-top: 6px;">P1: 基础</div>
                     <div class="stat-label">当前阶段</div>
                 </div>
             </div>
 
-            <h3>刷题热力图</h3>
-            <div id="heatmap" class="heatmap"></div>
+            <!-- 计划概览 -->
+            <div class="plan-overview">
+                <h2>📅 18周计划概览</h2>
+                <div class="plan-stats">
+                    <div class="plan-stat">
+                        <div class="plan-stat-value">5.5%</div>
+                        <div class="plan-stat-label">总体完成度</div>
+                    </div>
+                    <div class="plan-stat">
+                        <div class="plan-stat-value">0</div>
+                        <div class="plan-stat-label">已过天数</div>
+                    </div>
+                    <div class="plan-stat">
+                        <div class="plan-stat-value" style="color: #3fb950">125</div>
+                        <div class="plan-stat-label">剩余天数</div>
+                    </div>
+                    <div class="plan-stat">
+                        <div class="plan-stat-value">9/165</div>
+                        <div class="plan-stat-label">题目进度</div>
+                    </div>
+                </div>
+                <div class="overall-progress">
+                    <div class="overall-bar"></div>
+                </div>
+                
+                <h3>各阶段详情</h3>
+                
+        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #4CAF50;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #f0f6fc;">Phase 1: 基础 🎯</span>
+                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
+                    <div style="width: 25.71428571428571%; height: 100%; background: #4CAF50; border-radius: 4px; transition: width 0.3s;"></div>
+                </div>
+                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">9/35</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
+                <span>时间: 03/02 - 03/23</span>
+                <span>剩余: 26题</span>
+            </div>
+        </div>
+        
+        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #FF9800;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #f0f6fc;">Phase 2: 组合</span>
+                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
+                    <div style="width: 0.0%; height: 100%; background: #FF9800; border-radius: 4px; transition: width 0.3s;"></div>
+                </div>
+                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/35</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
+                <span>时间: 03/23 - 04/20</span>
+                <span>剩余: 35题</span>
+            </div>
+        </div>
+        
+        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #2196F3;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #f0f6fc;">Phase 3: 时序</span>
+                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
+                    <div style="width: 0.0%; height: 100%; background: #2196F3; border-radius: 4px; transition: width 0.3s;"></div>
+                </div>
+                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/30</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
+                <span>时间: 04/20 - 05/18</span>
+                <span>剩余: 30题</span>
+            </div>
+        </div>
+        
+        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #F44336;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #f0f6fc;">Phase 4: FSM</span>
+                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
+                    <div style="width: 0.0%; height: 100%; background: #F44336; border-radius: 4px; transition: width 0.3s;"></div>
+                </div>
+                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/35</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
+                <span>时间: 05/18 - 06/15</span>
+                <span>剩余: 35题</span>
+            </div>
+        </div>
+        
+        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #9C27B0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #f0f6fc;">Phase 5: 综合</span>
+                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
+                    <div style="width: 0.0%; height: 100%; background: #9C27B0; border-radius: 4px; transition: width 0.3s;"></div>
+                </div>
+                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/30</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
+                <span>时间: 06/15 - 07/06</span>
+                <span>剩余: 30题</span>
+            </div>
+        </div>
+        
+            </div>
             
-            <h3>详细记录</h3>
+            <!-- 热力图 -->
+            <h2>🔥 刷题热力图</h2>
+            <div id="heatmap" class="heatmap"></div>
+            <div class="legend">
+                <span>Less</span>
+                <div class="legend-box" style="background: #161b22; border: 1px solid #21262d;"></div>
+                <div class="legend-box" style="background: #0e4429;"></div>
+                <div class="legend-box" style="background: #006d32;"></div>
+                <div class="legend-box" style="background: #26a641;"></div>
+                <div class="legend-box" style="background: #39d353;"></div>
+                <span>More</span>
+                <div style="width: 16px;"></div>
+                <div class="legend-box" style="background: #f85149;"></div>
+                <span>未达标</span>
+            </div>
+            
+            <!-- 详细记录 -->
+            <h2>📝 详细记录</h2>
             <table>
-                <tr><th>日期</th><th>阶段</th><th>完成</th><th>题目</th><th>备注</th></tr>
-                <tr><td>2026-03-02</td><td>Phase 1: 基础</td><td>9/10</td><td>Zero, Wire, Step_one...</td><td>Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl</td></tr>
+                <tr>
+                    <th>日期</th>
+                    <th>阶段</th>
+                    <th>完成</th>
+                    <th>题目</th>
+                    <th>备注</th>
+                </tr>
+                <tr><td>2026-03-02</td><td>Phase 1: 基础</td><td>9/10</td><td>Zero, Wire, Step_one...</td><td>Zero; Wire; Step one...</td></tr>
             </table>
         </div>
     </div>
 
     <script>
-        const PASSWORD = "hdl2026"; // 修改这里设置你的密码
+        const PASSWORD = "hdl2026";
         
         function check() {
             if (document.getElementById('pwd').value === PASSWORD) {
@@ -114,7 +271,7 @@
                         const level = Math.min(4, entry.done);
                         cell.className += ' l' + level;
                         if (entry.done < entry.planned) cell.className += ' missed';
-                        cell.title += `: ${entry.done}题`;
+                        cell.title += `: ${entry.done}题 ${entry.problems ? '('+entry.problems.join(',')+')' : ''}`;
                     }
                     week.appendChild(cell);
                 }
