@@ -3,17 +3,21 @@
   "daily": [
     {
       "date": "2026-03-02",
-      "done": 5,
-      "planned": 2,
+      "done": 9,
+      "planned": 10,
       "phase": "Phase 1: 基础",
       "problems": [
         "Zero",
         "Wire",
         "Step_one",
         "Wire4",
-        "Notgate"
+        "Notgate",
+        "Andgate",
+        "Norgate",
+        "Xnorgate",
+        "Wire_decl"
       ],
-      "note": "Zero; Wire; Step one; Wire4; Notgate"
+      "note": "Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl"
     }
   ]
 }
