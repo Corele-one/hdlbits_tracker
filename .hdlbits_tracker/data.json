@@ -19,6 +19,21 @@
         "7458"
       ],
       "note": "Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl; 7458"
+    },
+    {
+      "date": "2026-03-03",
+      "done": 3,
+      "planned": 10,
+      "phase": "Phase 1: 基础",
+      "problems": [
+        "Vector0",
+        "Vector1",
+        "Vector2"
+      ],
+      "note": "Vector0; Vector1; Vector2",
+      "chapters": [
+        "Vectors"
+      ]
     }
   ]
 }

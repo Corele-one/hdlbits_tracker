@@ -1,36 +1,69 @@
 {
   "start_date": "2026-03-02",
-  "daily_goal": 10,
+  "daily_goal": 2,
   "phases": [
     {
-      "name": "Phase 1: \u57fa\u7840",
+      "name": "Getting Started",
+      "category": "入门",
+      "weeks": 0.5,
+      "chapters": [
+        {"name": "Getting Started", "problems": 2}
+      ]
+    },
+    {
+      "name": "Verilog Language",
+      "category": "语法基础",
+      "weeks": 2.5,
+      "chapters": [
+        {"name": "Basics", "problems": 12},
+        {"name": "Vectors", "problems": 11},
+        {"name": "Modules: Hierarchy", "problems": 10},
+        {"name": "Procedures", "problems": 8},
+        {"name": "More Verilog Features", "problems": 8}
+      ]
+    },
+    {
+      "name": "Combinational Logic",
+      "category": "组合逻辑",
+      "weeks": 4,
+      "chapters": [
+        {"name": "Basic Gates", "problems": 15},
+        {"name": "Multiplexers", "problems": 12},
+        {"name": "Arithmetic Circuits", "problems": 12},
+        {"name": "Karnaugh Map to Circuit", "problems": 8}
+      ]
+    },
+    {
+      "name": "Sequential Logic",
+      "category": "时序逻辑",
+      "weeks": 4,
+      "chapters": [
+        {"name": "Latches and Flip-Flops", "problems": 18},
+        {"name": "Counters", "problems": 8},
+        {"name": "Shift Registers", "problems": 9},
+        {"name": "More Circuits", "problems": 10}
+      ]
+    },
+    {
+      "name": "Finite State Machines",
+      "category": "状态机",
+      "weeks": 4,
+      "chapters": [
+        {"name": "Simple FSM", "problems": 8},
+        {"name": "Complex FSM", "problems": 12},
+        {"name": "Building Larger Circuits", "problems": 7}
+      ]
+    },
+    {
+      "name": "Verification",
+      "category": "验证",
       "weeks": 3,
-      "total": 35,
-      "color": "#4CAF50"
-    },
-    {
-      "name": "Phase 2: \u7ec4\u5408",
-      "weeks": 4,
-      "total": 35,
-      "color": "#FF9800"
-    },
-    {
-      "name": "Phase 3: \u65f6\u5e8f",
-      "weeks": 4,
-      "total": 30,
-      "color": "#2196F3"
-    },
-    {
-      "name": "Phase 4: FSM",
-      "weeks": 4,
-      "total": 35,
-      "color": "#F44336"
-    },
-    {
-      "name": "Phase 5: \u7efc\u5408",
-      "weeks": 3,
-      "total": 30,
-      "color": "#9C27B0"
+      "chapters": [
+        {"name": "Reading Simulations", "problems": 15},
+        {"name": "Finding bugs in code", "problems": 10},
+        {"name": "Build from waveform", "problems": 5},
+        {"name": "Writing Testbenches", "problems": 8}
+      ]
     }
   ]
 }

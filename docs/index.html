@@ -2,280 +2,343 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>HDLBits Progress</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDLBits Tracker - By Chapter</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
-               background: #0d1117; color: #c9d1d9; padding: 40px 20px; margin: 0; line-height: 1.5; }
+               background: #0d1117; color: #c9d1d9; padding: 40px 20px; margin: 0; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; padding: 16px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 700; color: #58a6ff; }
         #login { text-align: center; margin-top: 100px; }
         input { padding: 10px; font-size: 16px; border: 1px solid #30363d; 
                 background: #21262d; color: white; border-radius: 6px; margin: 10px; }
         button { padding: 10px 20px; background: #238636; color: white; border: none; 
                  border-radius: 6px; cursor: pointer; font-weight: 600; }
-        button:hover { background: #2ea043; }
         .hidden { display: none; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        h1 { color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 24px; }
-        h2 { color: #f0f6fc; font-size: 18px; margin: 24px 0 12px 0; }
-        h3 { color: #8b949e; font-size: 14px; margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
-        .stat-card { background: #161b22; border: 1px solid #30363d; padding: 16px; border-radius: 8px; text-align: center; }
-        .stat-value { font-size: 28px; font-weight: 700; color: #58a6ff; margin-bottom: 4px; }
-        .stat-label { font-size: 12px; color: #8b949e; }
-        
-        .plan-overview { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
-        .plan-stats { display: flex; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; }
-        .plan-stat { flex: 1; min-width: 120px; }
-        .plan-stat-value { font-size: 24px; font-weight: 600; color: #f0f6fc; }
-        .plan-stat-label { font-size: 12px; color: #8b949e; margin-top: 4px; }
-        
-        .overall-progress { height: 12px; background: #21262d; border-radius: 6px; overflow: hidden; margin: 12px 0; }
-        .overall-bar { height: 100%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 6px; 
-                       width: 6.0606060606060606%; transition: width 0.5s ease; }
-        
-        .heatmap { display: flex; gap: 3px; margin-top: 16px; overflow-x: auto; padding-bottom: 10px; }
-        .week { display: flex; flex-direction: column; gap: 3px; }
-        .day { width: 10px; height: 10px; border-radius: 2px; background: #161b22; border: 1px solid #21262d; }
-        .day.l1 { background: #0e4429; }
-        .day.l2 { background: #006d32; }
-        .day.l3 { background: #26a641; }
-        .day.l4 { background: #39d353; }
-        .day.missed { background: #f85149; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
-        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #30363d; }
-        th { color: #8b949e; font-weight: 500; font-size: 12px; text-transform: uppercase; }
-        
-        .legend { display: flex; gap: 8px; align-items: center; margin-top: 16px; font-size: 12px; color: #8b949e; justify-content: flex-end; }
-        .legend-box { width: 10px; height: 10px; border-radius: 2px; }
-        
-        @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .plan-stats { flex-direction: column; gap: 12px; }
-        }
     </style>
 </head>
 <body>
     <div id="login">
         <h2>🔒 HDLBits Tracker</h2>
-        <p>请输入访问密码</p>
         <input type="password" id="pwd" placeholder="password" onkeypress="if(event.key==='Enter')check()">
-        <br>
-        <button onclick="check()">进入</button>
+        <br><button onclick="check()">进入</button>
         <p id="error" style="color: #f85149; display: none;">密码错误</p>
     </div>
-
-    <div id="content" class="hidden">
-        <div class="container">
-            <h1>HDLBits 刷题进度</h1>
+    
+    <div id="content" class="hidden container">
+        <h1>HDLBits 刷题进度</h1>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">13</div>
+                <div style="font-size: 12px; color: #8b949e;">总题数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2</div>
+                <div style="font-size: 12px; color: #8b949e;">天数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">6.5</div>
+                <div style="font-size: 12px; color: #8b949e;">日均</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="font-size: 16px;">1</div>
+                <div style="font-size: 12px; color: #8b949e;">已开始章节</div>
+            </div>
+        </div>
+        
+        <h2>📚 章节进度</h2>
+        
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">入门 · Getting Started</h3>
+                <span style="font-size: 14px; color: #8b949e;">0/2 (0%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Getting Started</span>
+                        <span>⚪ 0/2</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">语法基础 · Verilog Language</h3>
+                <span style="font-size: 14px; color: #8b949e;">3/49 (6%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 6.122448979591836%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Basics</span>
+                        <span>⚪ 0/12</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
             
-            <!-- 统计卡片 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">10</div>
-                    <div class="stat-label">总题数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">1</div>
-                    <div class="stat-label">天数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">10.0</div>
-                    <div class="stat-label">日均</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="font-size: 18px; padding-top: 6px;">P1: 基础</div>
-                    <div class="stat-label">当前阶段</div>
-                </div>
-            </div>
-
-            <!-- 计划概览 -->
-            <div class="plan-overview">
-                <h2>📅 18周计划概览</h2>
-                <div class="plan-stats">
-                    <div class="plan-stat">
-                        <div class="plan-stat-value">6.1%</div>
-                        <div class="plan-stat-label">总体完成度</div>
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Vectors</span>
+                        <span>⚪ 3/11</span>
                     </div>
-                    <div class="plan-stat">
-                        <div class="plan-stat-value">0</div>
-                        <div class="plan-stat-label">已过天数</div>
-                    </div>
-                    <div class="plan-stat">
-                        <div class="plan-stat-value" style="color: #3fb950">125</div>
-                        <div class="plan-stat-label">剩余天数</div>
-                    </div>
-                    <div class="plan-stat">
-                        <div class="plan-stat-value">10/165</div>
-                        <div class="plan-stat-label">题目进度</div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 27.27272727272727%; background: #58a6ff; border-radius: 2px;"></div>
                     </div>
                 </div>
-                <div class="overall-progress">
-                    <div class="overall-bar"></div>
-                </div>
-                
-                <h3>各阶段详情</h3>
-                
-        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #4CAF50;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: #f0f6fc;">Phase 1: 基础 🎯</span>
-                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
-                    <div style="width: 28.57142857142857%; height: 100%; background: #4CAF50; border-radius: 4px; transition: width 0.3s;"></div>
-                </div>
-                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">10/35</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
-                <span>时间: 03/02 - 03/23</span>
-                <span>剩余: 25题</span>
-            </div>
-        </div>
-        
-        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #FF9800;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: #f0f6fc;">Phase 2: 组合</span>
-                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
-                    <div style="width: 0.0%; height: 100%; background: #FF9800; border-radius: 4px; transition: width 0.3s;"></div>
-                </div>
-                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/35</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
-                <span>时间: 03/23 - 04/20</span>
-                <span>剩余: 35题</span>
-            </div>
-        </div>
-        
-        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #2196F3;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: #f0f6fc;">Phase 3: 时序</span>
-                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
-                    <div style="width: 0.0%; height: 100%; background: #2196F3; border-radius: 4px; transition: width 0.3s;"></div>
-                </div>
-                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/30</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
-                <span>时间: 04/20 - 05/18</span>
-                <span>剩余: 30题</span>
-            </div>
-        </div>
-        
-        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #F44336;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: #f0f6fc;">Phase 4: FSM</span>
-                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
-                    <div style="width: 0.0%; height: 100%; background: #F44336; border-radius: 4px; transition: width 0.3s;"></div>
-                </div>
-                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/35</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
-                <span>时间: 05/18 - 06/15</span>
-                <span>剩余: 35题</span>
-            </div>
-        </div>
-        
-        <div class="phase-item" style="margin-bottom: 16px; padding: 12px; background: #161b22; border-radius: 6px; border-left: 4px solid #9C27B0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: #f0f6fc;">Phase 5: 综合</span>
-                <span style="font-size: 12px; color: #58a6ff;">🟢 正常</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden;">
-                    <div style="width: 0.0%; height: 100%; background: #9C27B0; border-radius: 4px; transition: width 0.3s;"></div>
-                </div>
-                <span style="font-size: 12px; color: #8b949e; min-width: 60px; text-align: right;">0/30</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #8b949e;">
-                <span>时间: 06/15 - 07/06</span>
-                <span>剩余: 30题</span>
-            </div>
-        </div>
-        
-            </div>
             
-            <!-- 热力图 -->
-            <h2>🔥 刷题热力图</h2>
-            <div id="heatmap" class="heatmap"></div>
-            <div class="legend">
-                <span>Less</span>
-                <div class="legend-box" style="background: #161b22; border: 1px solid #21262d;"></div>
-                <div class="legend-box" style="background: #0e4429;"></div>
-                <div class="legend-box" style="background: #006d32;"></div>
-                <div class="legend-box" style="background: #26a641;"></div>
-                <div class="legend-box" style="background: #39d353;"></div>
-                <span>More</span>
-                <div style="width: 16px;"></div>
-                <div class="legend-box" style="background: #f85149;"></div>
-                <span>未达标</span>
-            </div>
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Modules: Hierarchy</span>
+                        <span>⚪ 0/10</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
             
-            <!-- 详细记录 -->
-            <h2>📝 详细记录</h2>
-            <table>
-                <tr>
-                    <th>日期</th>
-                    <th>阶段</th>
-                    <th>完成</th>
-                    <th>题目</th>
-                    <th>备注</th>
-                </tr>
-                <tr><td>2026-03-02</td><td>Phase 1: 基础</td><td>10/10</td><td>Zero, Wire, Step_one...</td><td>Zero; Wire; Step one...</td></tr>
-            </table>
-        </div>
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Procedures</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>More Verilog Features</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">组合逻辑 · Combinational Logic</h3>
+                <span style="font-size: 14px; color: #8b949e;">0/47 (0%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Basic Gates</span>
+                        <span>⚪ 0/15</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Multiplexers</span>
+                        <span>⚪ 0/12</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Arithmetic Circuits</span>
+                        <span>⚪ 0/12</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Karnaugh Map to Circuit</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">时序逻辑 · Sequential Logic</h3>
+                <span style="font-size: 14px; color: #8b949e;">0/45 (0%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Latches and Flip-Flops</span>
+                        <span>⚪ 0/18</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Counters</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Shift Registers</span>
+                        <span>⚪ 0/9</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>More Circuits</span>
+                        <span>⚪ 0/10</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">状态机 · Finite State Machines</h3>
+                <span style="font-size: 14px; color: #8b949e;">0/27 (0%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Simple FSM</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Complex FSM</span>
+                        <span>⚪ 0/12</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Building Larger Circuits</span>
+                        <span>⚪ 0/7</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f0f6fc;">验证 · Verification</h3>
+                <span style="font-size: 14px; color: #8b949e;">0/38 (0%)</span>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+        
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Reading Simulations</span>
+                        <span>⚪ 0/15</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Finding bugs in code</span>
+                        <span>⚪ 0/10</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Build from waveform</span>
+                        <span>⚪ 0/5</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            
+                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Writing Testbenches</span>
+                        <span>⚪ 0/8</span>
+                    </div>
+                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
+                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
+                    </div>
+                </div>
+            </div></div>
+        
+        <h2>📝 最近记录</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <tr style="border-bottom: 1px solid #30363d;">
+                <th style="text-align: left; padding: 8px; color: #8b949e;">日期</th>
+                <th style="text-align: left; padding: 8px; color: #8b949e;">章节</th>
+                <th style="text-align: left; padding: 8px; color: #8b949e;">题目</th>
+            </tr>
+            <tr style='border-bottom: 1px solid #21262d;'><td style='padding: 8px;'>2026-03-03</td><td style='padding: 8px;'>Vectors</td><td style='padding: 8px;'>Vector0, Vector1, Vector2</td></tr><tr style='border-bottom: 1px solid #21262d;'><td style='padding: 8px;'>2026-03-02</td><td style='padding: 8px;'></td><td style='padding: 8px;'>Zero, Wire, Step_one, Wire4, Notgate, Andgate, Norgate, Xnorgate, Wire_decl, 7458</td></tr>
+        </table>
     </div>
-
+    
     <script>
-        const PASSWORD = "hdl2026";
-        
         function check() {
-            if (document.getElementById('pwd').value === PASSWORD) {
+            if (document.getElementById('pwd').value === 'hdl2026') {
                 document.getElementById('login').classList.add('hidden');
                 document.getElementById('content').classList.remove('hidden');
-                renderHeatmap();
             } else {
                 document.getElementById('error').style.display = 'block';
-            }
-        }
-        
-        function renderHeatmap() {
-            const data = [{"date": "2026-03-02", "done": 10, "planned": 10, "phase": "Phase 1: \u57fa\u7840", "problems": ["Zero", "Wire", "Step_one", "Wire4", "Notgate", "Andgate", "Norgate", "Xnorgate", "Wire_decl", "7458"], "note": "Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl; 7458"}];
-            const container = document.getElementById('heatmap');
-            const start = new Date("2026-03-02");
-            
-            for (let w = 0; w < 26; w++) {
-                const week = document.createElement('div');
-                week.className = 'week';
-                for (let d = 0; d < 7; d++) {
-                    const date = new Date(start);
-                    date.setDate(start.getDate() + w * 7 + d);
-                    const dateStr = date.toISOString().split('T')[0];
-                    const entry = data.find(x => x.date === dateStr);
-                    
-                    const cell = document.createElement('div');
-                    cell.className = 'day';
-                    cell.title = dateStr;
-                    
-                    if (entry) {
-                        const level = Math.min(4, entry.done);
-                        cell.className += ' l' + level;
-                        if (entry.done < entry.planned) cell.className += ' missed';
-                        cell.title += `: ${entry.done}题 ${entry.problems ? '('+entry.problems.join(',')+')' : ''}`;
-                    }
-                    week.appendChild(cell);
-                }
-                container.appendChild(week);
             }
         }
     </script>
