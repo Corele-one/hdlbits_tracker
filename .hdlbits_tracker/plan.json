@@ -15,11 +15,11 @@
       "category": "语法基础",
       "weeks": 2.5,
       "chapters": [
-        {"name": "Basics", "problems": 12},
-        {"name": "Vectors", "problems": 11},
-        {"name": "Modules: Hierarchy", "problems": 10},
+        {"name": "Basics", "problems": 17},
+        {"name": "Vectors", "problems": 9},
+        {"name": "Modules: Hierarchy", "problems": 9},
         {"name": "Procedures", "problems": 8},
-        {"name": "More Verilog Features", "problems": 8}
+        {"name": "More Verilog Features", "problems": 7}
       ]
     },
     {
@@ -27,9 +27,9 @@
       "category": "组合逻辑",
       "weeks": 4,
       "chapters": [
-        {"name": "Basic Gates", "problems": 15},
+        {"name": "Basic Gates", "problems": 17},
         {"name": "Multiplexers", "problems": 12},
-        {"name": "Arithmetic Circuits", "problems": 12},
+        {"name": "Arithmetic Circuits", "problems": 7},
         {"name": "Karnaugh Map to Circuit", "problems": 8}
       ]
     },
@@ -41,16 +41,16 @@
         {"name": "Latches and Flip-Flops", "problems": 18},
         {"name": "Counters", "problems": 8},
         {"name": "Shift Registers", "problems": 9},
-        {"name": "More Circuits", "problems": 10}
+        {"name": "More Circuits", "problems": 3}
       ]
     },
     {
       "name": "Finite State Machines",
       "category": "状态机",
-      "weeks": 4,
+      "weeks": 5,
       "chapters": [
         {"name": "Simple FSM", "problems": 8},
-        {"name": "Complex FSM", "problems": 12},
+        {"name": "Complex FSM", "problems": 22},
         {"name": "Building Larger Circuits", "problems": 7}
       ]
     },
@@ -60,9 +60,9 @@
       "weeks": 3,
       "chapters": [
         {"name": "Reading Simulations", "problems": 15},
-        {"name": "Finding bugs in code", "problems": 10},
-        {"name": "Build from waveform", "problems": 5},
-        {"name": "Writing Testbenches", "problems": 8}
+        {"name": "Finding bugs in code", "problems": 5},
+        {"name": "Build from waveform", "problems": 10},
+        {"name": "Writing Testbenches", "problems": 5}
       ]
     }
   ]

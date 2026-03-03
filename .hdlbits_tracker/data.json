@@ -18,21 +18,32 @@
         "Wire_decl",
         "7458"
       ],
-      "note": "Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl; 7458"
+      "note": "Zero; Wire; Step one; Wire4; Notgate; Andgate; Norgate; Xnorgate; Wire decl; 7458",
+      "chapters": [
+        "Basics"
+      ]
     },
     {
       "date": "2026-03-03",
-      "done": 3,
+      "done": 10,
       "planned": 10,
       "phase": "Phase 1: 基础",
       "problems": [
         "Vector0",
         "Vector1",
-        "Vector2"
+        "Vector2",
+        "Vectorgates",
+        "Gates4",
+        "Vector3",
+        "Vectorr",
+        "Vector4",
+        "Vector5",
+        "Module"
       ],
-      "note": "Vector0; Vector1; Vector2",
+      "note": "Vector0; Vector1; Vector2; Vectorgates; Gates4; Vector3; Vectorr; Vector4; Vector5; Module",
       "chapters": [
-        "Vectors"
+        "Vectors",
+        "Modules: Hierarchy"
       ]
     }
   ]
