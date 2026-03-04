@@ -5,7 +5,7 @@
       "date": "2026-03-02",
       "done": 10,
       "planned": 10,
-      "phase": "Phase 1: 基础",
+      "phase": "Verilog Language",
       "problems": [
         "Zero",
         "Wire",
@@ -27,7 +27,7 @@
       "date": "2026-03-03",
       "done": 10,
       "planned": 10,
-      "phase": "Phase 1: 基础",
+      "phase": "Verilog Language",
       "problems": [
         "Vector0",
         "Vector1",
@@ -45,6 +45,21 @@
         "Vectors",
         "Modules: Hierarchy"
       ]
+    },
+    {
+      "date": "2026-03-04",
+      "done": 3,
+      "planned": 2,
+      "phase": "Verilog Language",
+      "chapters": [
+        "Modules: Hierarchy"
+      ],
+      "problems": [
+        "Module_pos",
+        "Module_shift",
+        "Module_shift8"
+      ],
+      "note": "Module pos; Module shift; Module shift8"
     }
   ]
 }

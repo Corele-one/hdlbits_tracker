@@ -1,6 +1,6 @@
 {
   "start_date": "2026-03-02",
-  "daily_goal": 2,
+  "daily_goal": 5,
   "phases": [
     {
       "name": "Getting Started",
@@ -15,7 +15,7 @@
       "category": "语法基础",
       "weeks": 2.5,
       "chapters": [
-        {"name": "Basics", "problems": 17},
+        {"name": "Basics", "problems": 8},
         {"name": "Vectors", "problems": 9},
         {"name": "Modules: Hierarchy", "problems": 9},
         {"name": "Procedures", "problems": 8},
@@ -25,10 +25,10 @@
     {
       "name": "Combinational Logic",
       "category": "组合逻辑",
-      "weeks": 4,
+      "weeks": 3,
       "chapters": [
         {"name": "Basic Gates", "problems": 17},
-        {"name": "Multiplexers", "problems": 12},
+        {"name": "Multiplexers", "problems": 5},
         {"name": "Arithmetic Circuits", "problems": 7},
         {"name": "Karnaugh Map to Circuit", "problems": 8}
       ]
@@ -41,28 +41,34 @@
         {"name": "Latches and Flip-Flops", "problems": 18},
         {"name": "Counters", "problems": 8},
         {"name": "Shift Registers", "problems": 9},
-        {"name": "More Circuits", "problems": 3}
+        {"name": "More Circuits", "problems": 3},
+        {"name": "Finite State Machines", "problems": 33}
       ]
     },
     {
-      "name": "Finite State Machines",
-      "category": "状态机",
-      "weeks": 5,
+      "name": "Building Larger Circuits",
+      "category": "综合电路",
+      "weeks": 1,
       "chapters": [
-        {"name": "Simple FSM", "problems": 8},
-        {"name": "Complex FSM", "problems": 22},
         {"name": "Building Larger Circuits", "problems": 7}
       ]
     },
     {
       "name": "Verification",
       "category": "验证",
-      "weeks": 3,
+      "weeks": 2,
       "chapters": [
-        {"name": "Reading Simulations", "problems": 15},
         {"name": "Finding bugs in code", "problems": 5},
         {"name": "Build from waveform", "problems": 10},
         {"name": "Writing Testbenches", "problems": 5}
+      ]
+    },
+    {
+      "name": "CS450",
+      "category": "高级",
+      "weeks": 0.5,
+      "chapters": [
+        {"name": "CS450", "problems": 4}
       ]
     }
   ]
