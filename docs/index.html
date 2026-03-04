@@ -1,337 +1,521 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>HDLBits Tracker - By Chapter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDLBits 刷题进度</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
-               background: #0d1117; color: #c9d1d9; padding: 40px 20px; margin: 0; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        h1 { color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
-        .stat-card { background: #161b22; border: 1px solid #30363d; padding: 16px; border-radius: 8px; text-align: center; }
-        .stat-value { font-size: 24px; font-weight: 700; color: #58a6ff; }
-        #login { text-align: center; margin-top: 100px; }
-        input { padding: 10px; font-size: 16px; border: 1px solid #30363d; 
-                background: #21262d; color: white; border-radius: 6px; margin: 10px; }
-        button { padding: 10px 20px; background: #238636; color: white; border: none; 
-                 border-radius: 6px; cursor: pointer; font-weight: 600; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background: #0d1117; 
+            color: #c9d1d9; 
+            line-height: 1.6;
+        }
+        #login { 
+            text-align: center; 
+            padding-top: 150px; 
+            min-height: 100vh;
+            background: #0d1117;
+        }
+        #login h2 { color: #f0f6fc; margin-bottom: 20px; font-size: 24px; }
+        #login input { 
+            padding: 12px 16px; 
+            font-size: 16px; 
+            border: 1px solid #30363d; 
+            background: #21262d; 
+            color: white; 
+            border-radius: 6px; 
+            width: 250px;
+            margin-bottom: 10px;
+        }
+        #login button { 
+            padding: 12px 24px; 
+            background: #238636; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 14px;
+        }
+        #login button:hover { background: #2ea043; }
         .hidden { display: none; }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        
+        h1 { 
+            color: #f0f6fc; 
+            font-size: 28px; 
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 16px; 
+            margin-bottom: 32px; 
+        }
+        .stat-card { 
+            background: #161b22; 
+            border: 1px solid #30363d; 
+            padding: 20px; 
+            border-radius: 8px; 
+            text-align: center;
+        }
+        .stat-value { 
+            font-size: 32px; 
+            font-weight: 700; 
+            color: #58a6ff; 
+            margin-bottom: 4px;
+        }
+        .stat-label { 
+            font-size: 13px; 
+            color: #8b949e; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #f0f6fc;
+            margin: 32px 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background: #0d1117;
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-bottom: 1px solid #30363d;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #21262d;
+        }
+        
+        .warning {
+            background: #f8514920;
+            border: 1px solid #f85149;
+            color: #f85149;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
     <div id="login">
         <h2>🔒 HDLBits Tracker</h2>
+        <p style="color: #8b949e; margin-bottom: 20px;">请输入访问密码</p>
         <input type="password" id="pwd" placeholder="password" onkeypress="if(event.key==='Enter')check()">
-        <br><button onclick="check()">进入</button>
-        <p id="error" style="color: #f85149; display: none;">密码错误</p>
+        <br>
+        <button onclick="check()">进入</button>
+        <p id="error" style="color: #f85149; display: none; margin-top: 10px;">密码错误</p>
     </div>
-    
-    <div id="content" class="hidden container">
-        <h1>HDLBits 刷题进度</h1>
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value">23</div>
-                <div style="font-size: 12px; color: #8b949e;">总题数</div>
+
+    <div id="content" class="hidden">
+        <div class="container">
+            <h1>HDLBits 刷题进度</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">25</div>
+                    <div class="stat-label">总题数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">天数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8.3</div>
+                    <div class="stat-label">日均</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">已开始章节</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div style="font-size: 12px; color: #8b949e;">天数</div>
+            
+            
+            
+            <div class="section-title">📚 章节进度</div>
+            
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #3fb950;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">入门</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Getting Started</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #3fb950;">✅ 完成</div>
+                    <div style="font-size: 12px; color: #8b949e;">2/2 题</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">7.7</div>
-                <div style="font-size: 12px; color: #8b949e;">日均</div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 100%; background: linear-gradient(90deg, #3fb950, #3fb950aa); border-radius: 4px;"></div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" style="font-size: 16px;">3</div>
-                <div style="font-size: 12px; color: #8b949e;">已开始章节</div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Getting Started</span>
+                    <span style="font-size: 13px; color: #8b949e;">✅ 2/2</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 100%; background: #238636; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
             </div>
+            
         </div>
         
-        <h2>📚 章节进度</h2>
-        
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #58a6ff;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">入门 · Getting Started</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/2 (0%)</span>
-            </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-        
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Getting Started</span>
-                        <span>⚪ 0/2</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">语法基础</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Verilog Language</div>
                 </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #58a6ff;">🟢 56%</div>
+                    <div style="font-size: 12px; color: #8b949e;">23/41 题</div>
+                </div>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 56.09756097560976%; background: linear-gradient(90deg, #58a6ff, #58a6ffaa); border-radius: 4px;"></div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Basics</span>
+                    <span style="font-size: 13px; color: #8b949e;">✅ 8/8</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 100%; background: #238636; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Vectors</span>
+                    <span style="font-size: 13px; color: #8b949e;">✅ 9/9</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 100%; background: #238636; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Modules: Hierarchy</span>
+                    <span style="font-size: 13px; color: #8b949e;">🟢 6/9</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 66.66666666666666%; background: #58a6ff; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Procedures</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/8</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">More Verilog Features</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/7</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #8b949e;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">语法基础 · Verilog Language</h3>
-                <span style="font-size: 14px; color: #8b949e;">33/41 (80%)</span>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">组合逻辑</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Combinational Logic</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #8b949e;">⚪ 未开始</div>
+                    <div style="font-size: 12px; color: #8b949e;">0/37 题</div>
+                </div>
             </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 80.48780487804879%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #8b949e, #8b949eaa); border-radius: 4px;"></div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Basic Gates</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/17</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Multiplexers</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/5</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Arithmetic Circuits</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/7</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Karnaugh Map to Circuit</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/8</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
         
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Basics</span>
-                        <span>✅ 10/8</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 125.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Vectors</span>
-                        <span>✅ 10/9</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 111.11111111111111%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Modules: Hierarchy</span>
-                        <span>✅ 13/9</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 144.44444444444443%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Procedures</span>
-                        <span>⚪ 0/8</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>More Verilog Features</span>
-                        <span>⚪ 0/7</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #8b949e;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">组合逻辑 · Combinational Logic</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/37 (0%)</span>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">时序逻辑</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Sequential Logic</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #8b949e;">⚪ 未开始</div>
+                    <div style="font-size: 12px; color: #8b949e;">0/71 题</div>
+                </div>
             </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #8b949e, #8b949eaa); border-radius: 4px;"></div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Latches and Flip-Flops</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/18</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Counters</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/8</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Shift Registers</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/9</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">More Circuits</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/3</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Finite State Machines</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/33</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
         
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Basic Gates</span>
-                        <span>⚪ 0/17</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Multiplexers</span>
-                        <span>⚪ 0/5</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Arithmetic Circuits</span>
-                        <span>⚪ 0/7</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Karnaugh Map to Circuit</span>
-                        <span>⚪ 0/8</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #8b949e;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">时序逻辑 · Sequential Logic</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/71 (0%)</span>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">综合电路</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Building Larger Circuits</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #8b949e;">⚪ 未开始</div>
+                    <div style="font-size: 12px; color: #8b949e;">0/7 题</div>
+                </div>
             </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #8b949e, #8b949eaa); border-radius: 4px;"></div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Building Larger Circuits</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/7</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
         
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Latches and Flip-Flops</span>
-                        <span>⚪ 0/18</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Counters</span>
-                        <span>⚪ 0/8</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Shift Registers</span>
-                        <span>⚪ 0/9</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>More Circuits</span>
-                        <span>⚪ 0/3</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Finite State Machines</span>
-                        <span>⚪ 0/33</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
-                </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #8b949e;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">综合电路 · Building Larger Circuits</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/7 (0%)</span>
-            </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-        
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Building Larger Circuits</span>
-                        <span>⚪ 0/7</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">验证</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">Verification</div>
                 </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">验证 · Verification</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/20 (0%)</span>
-            </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-        
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Finding bugs in code</span>
-                        <span>⚪ 0/5</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #8b949e;">⚪ 未开始</div>
+                    <div style="font-size: 12px; color: #8b949e;">0/20 题</div>
                 </div>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #8b949e, #8b949eaa); border-radius: 4px;"></div>
+            </div>
             
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Build from waveform</span>
-                        <span>⚪ 0/10</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Finding bugs in code</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/5</span>
                 </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
             
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>Writing Testbenches</span>
-                        <span>⚪ 0/5</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Build from waveform</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/10</span>
                 </div>
-            </div></div>
-        <div class="phase-section" style="margin-bottom: 24px; background: #161b22; border-radius: 8px; padding: 16px; border-left: 4px solid #58a6ff;">
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">Writing Testbenches</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/5</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 4px solid #8b949e;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #f0f6fc;">高级 · CS450</h3>
-                <span style="font-size: 14px; color: #8b949e;">0/4 (0%)</span>
-            </div>
-            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 12px;">
-                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #238636, #2ea043); border-radius: 4px;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-        
-                <div style="background: #0d1117; padding: 10px; border-radius: 6px; font-size: 13px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                        <span>CS450</span>
-                        <span>⚪ 0/4</span>
-                    </div>
-                    <div style="height: 4px; background: #21262d; border-radius: 2px;">
-                        <div style="height: 100%; width: 0.0%; background: #58a6ff; border-radius: 2px;"></div>
-                    </div>
+                <div>
+                    <div style="font-size: 12px; color: #8b949e; margin-bottom: 2px;">高级</div>
+                    <div style="font-size: 16px; font-weight: 600; color: #f0f6fc;">CS450</div>
                 </div>
-            </div></div>
+                <div style="text-align: right;">
+                    <div style="font-size: 18px; font-weight: 700; color: #8b949e;">⚪ 未开始</div>
+                    <div style="font-size: 12px; color: #8b949e;">0/4 题</div>
+                </div>
+            </div>
+            <div style="height: 8px; background: #21262d; border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+                <div style="height: 100%; width: 0.0%; background: linear-gradient(90deg, #8b949e, #8b949eaa); border-radius: 4px;"></div>
+            </div>
+            
+            <div style="background: #0d1117; padding: 12px; border-radius: 6px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 14px; color: #c9d1d9;">CS450</span>
+                    <span style="font-size: 13px; color: #8b949e;">⚪ 0/4</span>
+                </div>
+                <div style="height: 6px; background: #21262d; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; width: 0.0%; background: #30363d; border-radius: 3px; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+        </div>
         
-        <h2>📝 最近记录</h2>
-        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-            <tr style="border-bottom: 1px solid #30363d;">
-                <th style="text-align: left; padding: 8px; color: #8b949e;">日期</th>
-                <th style="text-align: left; padding: 8px; color: #8b949e;">章节</th>
-                <th style="text-align: left; padding: 8px; color: #8b949e;">题目</th>
-            </tr>
-            <tr style='border-bottom: 1px solid #21262d;'><td style='padding: 8px;'>2026-03-04</td><td style='padding: 8px;'>Modules: Hierarchy</td><td style='padding: 8px;'>Module_pos, Module_shift, Module_shift8</td></tr><tr style='border-bottom: 1px solid #21262d;'><td style='padding: 8px;'>2026-03-03</td><td style='padding: 8px;'>Vectors, Modules: Hierarchy</td><td style='padding: 8px;'>Vector0, Vector1, Vector2, Vectorgates, Gates4, Vector3, Vectorr, Vector4, Vector5, Module</td></tr><tr style='border-bottom: 1px solid #21262d;'><td style='padding: 8px;'>2026-03-02</td><td style='padding: 8px;'>Basics</td><td style='padding: 8px;'>Zero, Wire, Step_one, Wire4, Notgate, Andgate, Norgate, Xnorgate, Wire_decl, 7458</td></tr>
-        </table>
+            
+            <div class="section-title">📝 最近记录</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>章节</th>
+                        <th>完成</th>
+                        <th>题目</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr style="border-bottom: 1px solid #21262d;">
+            <td style="padding: 10px 8px; font-size: 13px; color: #c9d1d9;">2026-03-04</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #58a6ff;">Modules: Hierarchy</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #8b949e;">5/2</td>
+            <td style="padding: 10px 8px; font-size: 12px; color: #c9d1d9; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">Module_pos, Module_shift, Module_shift8, Module_add, Module_fadd</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid #21262d;">
+            <td style="padding: 10px 8px; font-size: 13px; color: #c9d1d9;">2026-03-03</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #58a6ff;">Vectors, Modules: Hierarchy</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #8b949e;">10/10</td>
+            <td style="padding: 10px 8px; font-size: 12px; color: #c9d1d9; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">Vector0, Vector1, Vector2, Vectorgates, Gates4 ...+5题</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid #21262d;">
+            <td style="padding: 10px 8px; font-size: 13px; color: #c9d1d9;">2026-03-02</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #58a6ff;">Basics</td>
+            <td style="padding: 10px 8px; font-size: 13px; color: #8b949e;">10/10</td>
+            <td style="padding: 10px 8px; font-size: 12px; color: #c9d1d9; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">Zero, Wire, Step_one, Wire4, Notgate ...+5题</td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </div>
     </div>
-    
+
     <script>
         function check() {
             if (document.getElementById('pwd').value === 'hdl2026') {
