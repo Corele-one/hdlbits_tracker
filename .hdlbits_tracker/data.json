@@ -48,20 +48,26 @@
     },
     {
       "date": "2026-03-04",
-      "done": 5,
+      "done": 10,
       "planned": 2,
       "phase": "Verilog Language",
       "chapters": [
-        "Modules: Hierarchy"
+        "Modules: Hierarchy",
+        "Procedures"
       ],
       "problems": [
         "Module_pos",
         "Module_shift",
         "Module_shift8",
         "Module_add",
-        "Module_fadd"
+        "Module_fadd",
+        "Module_cseladd",
+        "Module_addsub",
+        "Alwaysblock1",
+        "Alwaysblock2",
+        "Always_if"
       ],
-      "note": "Module pos; Module shift; Module shift8; Module add; Module fadd"
+      "note": "Module pos; Module shift; Module shift8; Module add; Module fadd; Module cseladd; Module addsub; Alwaysblock1; Alwaysblock2; Always if"
     }
   ]
 }
