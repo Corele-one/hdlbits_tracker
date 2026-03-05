@@ -68,6 +68,41 @@
         "Always_if"
       ],
       "note": "Module pos; Module shift; Module shift8; Module add; Module fadd; Module cseladd; Module addsub; Alwaysblock1; Alwaysblock2; Always if"
+    },
+    {
+      "date": "2026-03-05",
+      "done": 6,
+      "planned": 5,
+      "phase": "Verilog Language",
+      "chapters": [
+        "Procedures",
+        "More Verilog Features"
+      ],
+      "problems": [
+        "Always_if2",
+        "Always_case",
+        "Always_case2",
+        "Always_casez",
+        "Always_nolatches",
+        "Conditional"
+      ],
+      "note": "Always if2; Always case; Always case2; Always casez; Always nolatches; Conditional  条件"
+    },
+    {
+      "date": "2026-03-06",
+      "done": 4,
+      "planned": 5,
+      "phase": "Verilog Language",
+      "chapters": [
+        "More Verilog Features"
+      ],
+      "problems": [
+        "Reduction",
+        "Gates100",
+        "Vector100r",
+        "Popcount255"
+      ],
+      "note": "Reduction; Gates100; Vector100r; Popcount255"
     }
   ]
 }
