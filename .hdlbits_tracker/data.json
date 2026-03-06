@@ -90,7 +90,7 @@
     },
     {
       "date": "2026-03-06",
-      "done": 4,
+      "done": 6,
       "planned": 5,
       "phase": "Verilog Language",
       "chapters": [
@@ -100,9 +100,11 @@
         "Reduction",
         "Gates100",
         "Vector100r",
-        "Popcount255"
+        "Popcount255",
+        "Adder100i",
+        "Bcdadd100"
       ],
-      "note": "Reduction; Gates100; Vector100r; Popcount255"
+      "note": "Reduction; Gates100; Vector100r; Popcount255; Adder100i; Bcdadd100"
     }
   ]
 }
