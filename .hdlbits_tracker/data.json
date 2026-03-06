@@ -90,21 +90,36 @@
     },
     {
       "date": "2026-03-06",
-      "done": 6,
+      "done": 20,
       "planned": 5,
       "phase": "Verilog Language",
       "chapters": [
-        "More Verilog Features"
+        "More Verilog Features",
+        "Basic Gates"
       ],
       "problems": [
-        "Reduction",
-        "Gates100",
-        "Vector100r",
-        "Popcount255",
-        "Adder100i",
-        "Bcdadd100"
+        "reduction",
+        "gates100",
+        "vector100r",
+        "popcount255",
+        "adder100i",
+        "bcdadd100",
+        "exams/m2014_q4h",
+        "exams/m2014_q4i",
+        "exams/m2014_q4e",
+        "exams/m2014_q4f",
+        "exams/m2014_q4g",
+        "Gates",
+        "7420",
+        "Truthtable1",
+        "Mt2015_eq2",
+        "Mt2015_q4a",
+        "Mt2015_q4b",
+        "Mt2015_q4",
+        "Ringer",
+        "Thermostat"
       ],
-      "note": "Reduction; Gates100; Vector100r; Popcount255; Adder100i; Bcdadd100"
+      "note": "Reduction; Gates100; Vector100r; Popcount255; Adder100i; Bcdadd100; Exams/m2014 q4h; Exams/m2014 q4i; Exams/m2014 q4e; Exams/m2014 q4f; Exams/m2014 q4g;; Gates; 7420; Truthtable1; Mt2015 eq2; Mt2015 q4a; Mt2015 q4b; Mt2015 q4; Ringer; Thermostat"
     }
   ]
 }

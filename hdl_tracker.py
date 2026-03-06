@@ -321,23 +321,40 @@ def init():
     print("✅ 初始化完成")
 
 def get_chapter_from_problem(problem_name):
-    """根据题目名自动识别章节（不区分大小写，支持部分匹配）"""
-    # 统一转小写，并去掉可能的路径前缀
+    """根据题目名自动识别章节（支持部分匹配）"""
+    if not problem_name:
+        return "Unknown"
+    
     clean_name = problem_name.lower().strip()
-    # 如果包含斜杠，只取最后部分（如 exams/m2014_q4h -> m2014_q4h）
+    
+    # 如果包含斜杠，取最后部分
     if '/' in clean_name:
         clean_name = clean_name.split('/')[-1]
     
-    # 直接匹配
+    # 1. 直接匹配
     if clean_name in PROBLEM_MAP:
         return PROBLEM_MAP[clean_name]
     
-    # 模糊匹配（如 module_pos 匹配到 module_pos）
+    # 2. 去掉前缀精确匹配（你的现有逻辑）
     for key, chapter in PROBLEM_MAP.items():
-        # 去掉key的路径前缀再比较
         key_clean = key.split('/')[-1] if '/' in key else key
         if key_clean == clean_name:
             return chapter
+    
+    # 3. 新增：部分包含匹配（如输入 "m2014" 匹配 "m2014_q4h"）
+    # 优先级：按匹配长度排序，优先匹配更长的（更精确的）
+    matches = []
+    for key, chapter in PROBLEM_MAP.items():
+        key_clean = key.split('/')[-1] if '/' in key else key
+        
+        # 双向包含检查：clean_name 包含 key，或 key 包含 clean_name
+        if clean_name in key_clean or key_clean in clean_name:
+            matches.append((len(key_clean), key_clean, chapter))
+    
+    if matches:
+        # 优先返回匹配长度最长的（最精确的）
+        matches.sort(reverse=True)
+        return matches[0][2]
     
     return "Unknown"
 
