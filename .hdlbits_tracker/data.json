@@ -120,6 +120,30 @@
         "Thermostat"
       ],
       "note": "Reduction; Gates100; Vector100r; Popcount255; Adder100i; Bcdadd100; Exams/m2014 q4h; Exams/m2014 q4i; Exams/m2014 q4e; Exams/m2014 q4f; Exams/m2014 q4g;; Gates; 7420; Truthtable1; Mt2015 eq2; Mt2015 q4a; Mt2015 q4b; Mt2015 q4; Ringer; Thermostat"
+    },
+    {
+      "date": "2026-03-07",
+      "done": 10,
+      "planned": 5,
+      "phase": "Combinational Logic",
+      "chapters": [
+        "Basic Gates",
+        "Multiplexers",
+        "Arithmetic Circuits"
+      ],
+      "problems": [
+        "Popcount3",
+        "Gatesv",
+        "Gatesv100",
+        "Mux2to1",
+        "Mux2to1v",
+        "Mux9to1v",
+        "Mux256to1",
+        "Mux256to1v",
+        "Hadd",
+        "Fadd"
+      ],
+      "note": "Popcount3; Gatesv; Gatesv100; Mux2to1; Mux2to1v; Mux9to1v; Mux256to1; Mux256to1v; Hadd; Fadd"
     }
   ]
 }
