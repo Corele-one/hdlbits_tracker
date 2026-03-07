@@ -123,13 +123,15 @@
     },
     {
       "date": "2026-03-07",
-      "done": 10,
+      "done": 21,
       "planned": 5,
       "phase": "Combinational Logic",
       "chapters": [
         "Basic Gates",
         "Multiplexers",
-        "Arithmetic Circuits"
+        "Arithmetic Circuits",
+        "Finite State Machines",
+        "Karnaugh Map to Circuit"
       ],
       "problems": [
         "Popcount3",
@@ -141,9 +143,18 @@
         "Mux256to1",
         "Mux256to1v",
         "Hadd",
-        "Fadd"
+        "Fadd",
+        "Adder3",
+        "Exams/m2014_q4j",
+        "Exams/ece241_2014_q1c",
+        "Adder100",
+        "Bcdadd4",
+        "Kmap1",
+        "Kmap2",
+        "Kmap3",
+        "Kmap4"
       ],
-      "note": "Popcount3; Gatesv; Gatesv100; Mux2to1; Mux2to1v; Mux9to1v; Mux256to1; Mux256to1v; Hadd; Fadd"
+      "note": "Popcount3; Gatesv; Gatesv100; Mux2to1; Mux2to1v; Mux9to1v; Mux256to1; Mux256to1v; Hadd; Fadd; Adder3; Exams/m2014 q4j; Exams/ece241 2014 q1c; Adder100; Bcdadd4; Kmap1; Kmap2; Kmap3; Kmap4"
     }
   ]
 }
